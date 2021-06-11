@@ -1,0 +1,17 @@
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>2.0</jsp-version>
+    <short-name>Example TLD</short-name>
+
+    <tag>
+        <name>LocalDateTag</name>
+        <tag-class>ua.training.model.Tag.LocalDateTimeTag</tag-class>
+        <body-content>scriptless</body-content>
+
+        <attribute>
+            <name>date</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+    </tag>
+</taglib>

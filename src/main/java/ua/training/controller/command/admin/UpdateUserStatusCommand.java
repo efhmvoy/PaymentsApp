@@ -1,0 +1,56 @@
+package ua.training.controller.command.admin;
+
+import org.apache.log4j.Logger;
+import ua.training.controller.command.Command;
+import ua.training.controller.command.CommandUtility;
+import ua.training.model.entity.User;
+import ua.training.model.service.UserService;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
+public class UpdateUserStatusCommand implements Command {
+
+    private static final Logger logger = Logger.getLogger(GetUserListCommand.class);
+    private static final String ERROR_MESSAGE = "errorMessage";
+
+    private final UserService userService;
+
+    public UpdateUserStatusCommand(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Override
+    public String execute(HttpServletRequest request) throws ServletException, IOException {
+        request.getSession().setAttribute("path","/WEB-INF/views/admin/user_list.jsp");
+        ResourceBundle rb = CommandUtility.setResourceBundle(request);
+
+        String userId = request.getParameter("userId");
+        String userStatus = request.getParameter("userStatus");
+
+        try{
+           userService.updateUser(Long.parseLong(userId),Long.parseLong(userStatus));
+        } catch (RuntimeException ex){
+            request.setAttribute(ERROR_MESSAGE, rb.getString("error.server"));
+            logger.error(ex);
+        }
+
+        List<User> userList = new ArrayList<>();
+
+        try{
+            userList = userService.getUserList();
+        } catch (RuntimeException ex){
+            request.setAttribute("errorMessage", "error");
+            logger.error(ex.getMessage());
+        }
+
+        request.getSession().setAttribute("userList", userList);
+        logger.trace("Payment list: " + userList);
+
+        return "/WEB-INF/views/admin/user_list.jsp";
+    }
+}
