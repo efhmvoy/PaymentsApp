@@ -25,11 +25,12 @@ public class AccessFilter implements Filter {
         guest.addAll(
                 Arrays.asList("/login.jsp", "login"));
         accessMap.put("ADMIN",
-                Arrays.asList("/admin_page.jsp", "logout","getAdminPage","getUserList","updateUserStatus"));
+                Arrays.asList("/admin_page.jsp", "logout","getAdminPage","getUserList","updateUserStatus",
+                        "getBlockedAccountList", "unblockAccount"));
         accessMap.put("USER",
                 Arrays.asList("logout","/user/user_page.jsp","getAccountList","getAccountListSorted","getUserPage",
                         "createUserAccount","getPaymentsPage","getPreparedPayments","getExecutedPayments",
-                        "executePayment","createPayment","getCreatePaymentPage","getAddFundsPage","addFunds"));
+                        "executePayment","createPayment","getCreatePaymentPage","getAddFundsPage","addFunds","blockAccount"));
         logger.debug("Filter initialization finished");
     }
 

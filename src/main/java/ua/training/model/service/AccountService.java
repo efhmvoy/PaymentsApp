@@ -5,6 +5,7 @@ import ua.training.model.dao.AccountDAO;
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.UserDAO;
 import ua.training.model.entity.Account;
+import ua.training.model.entity.AccountStatus;
 import ua.training.model.entity.User;
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,6 +20,11 @@ public class AccountService {
     public List<Account> getAccountListByUser(String login){
         AccountDAO accountDAO = daoFactory.createAccountDao();
         return accountDAO.findAllByLogin(login);
+    }
+
+    public List<Account> getBlockedAccountList(){
+        AccountDAO accountDAO = daoFactory.createAccountDao();
+        return accountDAO.findAllBlocked();
     }
 
     public List<Account> getAccountListByUserSorted(String login, String sortBy){
@@ -44,4 +50,13 @@ public class AccountService {
         return accountDAO.addFunds(accountNumber, amount);
     }
 
+    public Account updateAccount(Long accountNumber, Long statusId){
+        AccountDAO accountDAO = daoFactory.createAccountDao();
+        Account account = new Account();
+        account.setNumber(accountNumber);
+        AccountStatus accountStatus = new AccountStatus();
+        accountStatus.setId(statusId);
+        account.setAccountStatus(accountStatus);
+        return  accountDAO.update(account);
+    }
 }

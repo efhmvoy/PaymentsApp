@@ -10,10 +10,7 @@ import ua.training.model.entity.CreditCard;
 
 import java.math.BigDecimal;
 import java.security.SecureRandom;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +24,9 @@ public class AccountDAOImpl implements AccountDAO {
     private final String SELECT_ACCOUNTS_BY_USER_LOGIN = "SELECT a.*, s.id as account_status_id, s.name as status_name \n" +
             "FROM accounts a  JOIN account_statuses s ON a.account_status_id = s.id WHERE \n " +
             "(SELECT u.id  FROM users u where u.login = ?) = a.user_id";
+
+    private final String SELECT_BLOCKED_ACCOUNTS = "SELECT a.*, s.id as account_status_id, s.name as status_name \n" +
+            "FROM accounts a JOIN account_statuses s ON a.account_status_id = s.id WHERE a.account_status_id = ?";
 
     private final String SELECT_ACCOUNTS_BY_USER_LOGIN_ORDER_BY_NUMBER = "SELECT a.*, s.id as account_status_id, \n" +
             "s.name as status_name FROM accounts a  JOIN account_statuses s ON a.account_status_id = s.id \n" +
@@ -43,7 +43,7 @@ public class AccountDAOImpl implements AccountDAO {
     private final String SELECT_ACCOUNT_BY_NUMBER = "SELECT a.*, s.id as account_status_id, s.name as status_name \n" +
             " FROM accounts a  JOIN account_statuses s ON a.account_status_id = s.id WHERE number = ? ";
 
-    private final String UPDATE_ACCOUNT = "UPDATE ACCOUNTS SET account_status_id = ? WHERE id = ? RETURNING *;";
+    private final String UPDATE_ACCOUNT = "UPDATE ACCOUNTS SET account_status_id = ? WHERE number = ? RETURNING *;";
 
     private final String UPDATE_ACCOUNT_BALANCE = "UPDATE ACCOUNTS SET balance = balance + ? WHERE number = ? RETURNING *;";
 
@@ -123,19 +123,37 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
+    public List<Account> findAllBlocked() {
+        List<Account> accountList = new ArrayList<>();
+        try(PreparedStatement ps = connection.prepareStatement(SELECT_BLOCKED_ACCOUNTS)) {
+            ps.setLong(1, 2L);
+            ResultSet rs = ps.executeQuery();
+            AccountMapper accountMapper = new AccountMapper();
+            AccountStatusMapper accountStatusMapper = new AccountStatusMapper();
+            while (rs.next()) {
+                Account account = accountMapper.extractFromResultSet(rs);
+                AccountStatus accountStatus = accountStatusMapper.extractFromResultSet(rs);
+                account.setAccountStatus(accountStatus);
+                accountList.add(account);
+            }
+         } catch (SQLException ex) {
+            DBCPDataSource.rollbackAndClose(connection);
+            throw new RuntimeException(ex);
+        }
+             DBCPDataSource.commitAndClose(connection);
+            return accountList;
+        }
+
+    @Override
     public Account update(Account account) {
         Account accountFromDb = null;
-        AccountStatus accountStatus = null;
         AccountMapper accountMapper = new AccountMapper();
-        AccountStatusMapper accountStatusMapper = new AccountStatusMapper();
         try (PreparedStatement ps = connection.prepareStatement(UPDATE_ACCOUNT)) {
             ps.setLong(1, account.getAccountStatus().getId());
-            ps.setLong(2, account.getId());
+            ps.setLong(2, account.getNumber());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 accountFromDb = accountMapper.extractFromResultSet(rs);
-                accountStatus = accountStatusMapper.extractFromResultSet(rs);
-                accountFromDb.setAccountStatus(accountStatus);
             }
         } catch (SQLException ex) {
             DBCPDataSource.rollbackAndClose(connection);

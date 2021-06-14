@@ -3,6 +3,7 @@
 
 <fmt:message key="user.hello" var="userHello"/>
 <fmt:message key="user.users" var="userUsers"/>
+<fmt:message key="users.accounts" var="userAccounts"/>
 
 <html>
 <head>
@@ -22,7 +23,11 @@
         <div class="accounts-link">
             <a href="${pageContext.request.contextPath}/paymentsApp/getUserList">${userUsers}</a>
         </div>
+        <div class="accounts-link">
+            <a href="${pageContext.request.contextPath}/paymentsApp/getBlockedAccountList">${userAccounts}</a>
+        </div>
     </div>
+    <p class="center-align red-text text-darken-2 warning__message">${requestScope.get("errorMessage")}</p>
 </div>
 </body>
 </html>

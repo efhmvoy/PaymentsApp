@@ -67,6 +67,7 @@ nav{
     font-size: 50px;
     text-align: center;
     background: seagreen;
+    margin-top: 20px;
 }
 
 .accounts-link a{
@@ -125,7 +126,8 @@ nav{
 
 .payments-content{
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    flex-direction: column;
     align-items: center;
     height: 100vh;
     font-size: 30px;
@@ -133,21 +135,21 @@ nav{
 }
 .executed-payments-link{
     width: 300px;
-    height: 300px;
+    height: 150px;
     display: flex;
     align-items: center;
 }
 
 .prepared-payments-link{
     width: 300px;
-    height: 300px;
+    height: 150px;
     display: flex;
     align-items: center;
 }
 
 .create-payment-link{
     width: 300px;
-    height: 300px;
+    height: 150px;
     display: flex;
     align-items: center;
 }

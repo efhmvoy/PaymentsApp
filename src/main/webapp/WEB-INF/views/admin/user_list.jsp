@@ -6,7 +6,7 @@
 <fmt:message key="user.login" var="userLogin"/>
 <fmt:message key="user.status" var="userStatus"/>
 <fmt:message key="user.block" var="userBlock"/>
-<fmt:message key="user.unblock" var="userUnblock"/>
+<fmt:message key="user.unblock" var="accountUnblock"/>
 
 <html>
 
@@ -39,7 +39,7 @@
                 <td>${user.login}</td>
                 <td>${user.userStatus.name}</td>
                 <td><a href="${pageContext.request.contextPath}/paymentsApp/updateUserStatus?userId=${user.id}&userStatus=2">${userBlock}</a></td>
-                <td><a href="${pageContext.request.contextPath}/paymentsApp/updateUserStatus?userId=${user.id}&userStatus=1">${userUnblock}</a></td>
+                <td><a href="${pageContext.request.contextPath}/paymentsApp/updateUserStatus?userId=${user.id}&userStatus=1">${accountUnblock}</a></td>
             </tr>
         </c:forEach>
 
@@ -47,6 +47,7 @@
 
     </tbody>
 </table>
+<p class="center-align red-text text-darken-2 warning__message">${requestScope.get("errorMessage")}</p>
 </body>
 
 

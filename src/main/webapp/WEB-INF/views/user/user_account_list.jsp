@@ -46,6 +46,7 @@
             <h4><a href="${pageContext.request.contextPath}/paymentsApp/getAccountListSorted?sortValue=balance">${accountsortBalance}</a></h4>
         </div>
     </div>
+<p class="center-align red-text text-darken-2 warning__message">${requestScope.get("errorMessage")}</p>
     <div class="account-list-content">
 
        <c:forEach var="account" items='${sessionScope.get("accountList")}'>
@@ -54,10 +55,12 @@
                <div>${accountName}:  ${account.name}</div>
                <div>${accountBalance}: ${account.balance}</div>
                <div>${accountStatus}: ${account.accountStatus.name}</div>
-               <a href="${pageContext.request.contextPath}/paymentsApp/getPaymentsPage?accountNumber=${account.number}" class="account-item-link"></a>
+               <a href="${pageContext.request.contextPath}/paymentsApp/getPaymentsPage?accountNumber=${account.number}&accountStatus=${account.accountStatus.name}" class="account-item-link"></a>
            </div>
 
        </c:forEach>
+
+
     </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script >

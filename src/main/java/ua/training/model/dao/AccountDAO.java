@@ -14,4 +14,6 @@ public interface AccountDAO extends  GenericDAO<Account>{
     List<Account> findAllByLogin(String login);
 
     List<Account> findAllByLoginSorted(String login, String sortBy);
+
+    List<Account> findAllBlocked();
 }

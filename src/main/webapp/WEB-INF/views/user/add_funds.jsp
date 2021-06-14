@@ -17,7 +17,7 @@
 
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="amount" type="text" class="validate" name="amount">
+                    <input id="amount" type="text" class="validate" maxlength="10" name="amount" placeholder="0.0">
                     <label for="amount">${accountAmount}</label>
                 </div>
             </div>

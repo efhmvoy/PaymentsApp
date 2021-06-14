@@ -68,7 +68,7 @@
         </c:forEach>
     </c:if>
 </div>
-
+<p class="center-align red-text text-darken-2 warning__message">${requestScope.get("errorMessage")}</p>
 </body>
 
 

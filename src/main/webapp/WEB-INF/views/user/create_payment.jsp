@@ -18,13 +18,13 @@
         <form method="post" action="${pageContext.request.contextPath}/paymentsApp/createPayment">
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="amount" type="text" maxlength="8" class="validate" name="amount">
+                    <input id="amount" type="text" maxlength="8" class="validate" name="amount" placeholder="0.0">
                     <label for="amount">${paymentAmount}</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="receiverAccount" type="text" maxlength="8" class="validate" name="receiverAccount">
+                    <input id="receiverAccount" type="text" maxlength="8" class="validate" name="receiverAccount" placeholder="00000000">
                     <label for="receiverAccount">${paymentReceiverNumber}</label>
                 </div>
             </div>

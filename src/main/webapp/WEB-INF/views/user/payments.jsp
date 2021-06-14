@@ -5,6 +5,7 @@
 <fmt:message key="payment.create" var="paymentCreate"/>
 <fmt:message key="payment.executed" var="paymentExecuted"/>
 <fmt:message key="payment.prepared" var="paymentPrepared"/>
+<fmt:message key="account.block" var="accountBlock"/>
 
 <html>
 <head>
@@ -24,6 +25,9 @@
         </div>
         <div class="create-payment-link">
             <a href="${pageContext.request.contextPath}/paymentsApp/getAddFundsPage">${accountAddFunds}</a>
+        </div>
+        <div class="create-payment-link">
+            <a href="${pageContext.request.contextPath}/paymentsApp/blockAccount">${accountBlock}</a>
         </div>
     </div>
 </body>

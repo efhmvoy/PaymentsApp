@@ -3,9 +3,7 @@ package ua.training.controller;
 
 import org.apache.log4j.Logger;
 import ua.training.controller.command.Command;
-import ua.training.controller.command.admin.GetAdminPageCommand;
-import ua.training.controller.command.admin.GetUserListCommand;
-import ua.training.controller.command.admin.UpdateUserStatusCommand;
+import ua.training.controller.command.admin.*;
 import ua.training.controller.command.common.ChangeLocaleCommand;
 import ua.training.controller.command.common.LogOutCommand;
 import ua.training.controller.command.common.LoginCommand;
@@ -83,5 +81,8 @@ public class Servlet extends HttpServlet {
         commands.put("updateUserStatus", new UpdateUserStatusCommand(new UserService()));
         commands.put("getAddFundsPage", new GetAddFundsPageCommand());
         commands.put("addFunds", new AddFundsCommand(new AccountService()));
+        commands.put("blockAccount", new BlockAccountCommand(new AccountService()));
+        commands.put("getBlockedAccountList", new GetBlockedAccountList(new AccountService()));
+        commands.put("unblockAccount", new UnblockAccountCommand(new AccountService()));
     }
 }
